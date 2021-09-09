@@ -7,7 +7,12 @@ This is the source code and dataset for the paper PRUC: P-Regions with User-Defi
 The code is written in Java 14. The original developing platform is IntelliJ IDEA. The maven version is 3.6.3. pom.xml stores all the denpencies for this project.
 
 #### Quick Start:
-To run the code, locate the TestGeneral Class under GSLO package and run the main method. There is a one-to-one relationship between the static methods in this Class and the experiments in the paper, which is documented in the annotation of the methods.
+The following provides a quick way to run the code and reproduce the experimental results in command line. First switch to the project directory run **-mvn compile** to compile the java source classes, which gives the following output.  
+<img src = "https://github.com/Yongyi-Liu/PRUC/blob/master/cmdline/step1.png" width = "400">
+
+Then, type **-mvn exec:java -Dexec.mainClass=test.TestGeneral** to run the main class in the project, and the experiments will be run sequentially. The following is an example.
+
+<img src = "https://github.com/Yongyi-Liu/PRUC/blob/master/cmdline/step2.png" width = "900">
 
 #### Explanation:
 The util package stores the common Class that are used among all the methods.
@@ -19,3 +24,6 @@ The datasets used in experiment come from two sources,  [TIGER/Line Shapefile](h
 
 #### Contact:
 If you have any question with this project, please feel free to reach me by yliu786 [at] ucr.edu
+
+
+
