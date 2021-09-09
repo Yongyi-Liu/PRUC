@@ -30,7 +30,7 @@ public class ModifiedSKATERCON {
      */
     public ModifiedSKATERCON(ArrayList<Area> all_areas, int sc , int p , long threshold) throws InterruptedException, CloneNotSupportedException {
         long start_runtime = System.currentTimeMillis();
-        this.thread_num = 4; //the number of random spanning tree as input
+        this.thread_num = 8; //the number of random spanning tree as input
         this.all_areas = all_areas;
         this.skater_results = new Region[thread_num][];
         this.coarsen_threshold = 100;

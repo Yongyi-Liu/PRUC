@@ -242,7 +242,7 @@ public class LocalOptimization {
     public ArrayList<Area> parallel_search_movable_units() {
         ArrayList<Area> movable_units = new ArrayList<>();
         ReentrantLock lock = new ReentrantLock();
-        ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService threadPool = Executors.newFixedThreadPool(4);
         ArrayList<ParallelMovableUnitsSearch> tasks = new ArrayList<>();
         for (Region region : regions) {
             tasks.add(new ParallelMovableUnitsSearch(region, movable_units, lock));

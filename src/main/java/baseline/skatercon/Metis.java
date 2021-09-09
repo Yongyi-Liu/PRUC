@@ -30,6 +30,7 @@ public class Metis {
     public Region[] Metis_start()
     {
 
+        //if the threshold on the user-defined constraint is not 0, then the subgraph with the largest extensive attribute is given priority to be partitioned
         if(threshold > 0)
         {
             ArrayList<Graph> all_graphs = new ArrayList<>();
