@@ -32,7 +32,7 @@ public class ModifiedSKATER {
     {
         this.all_areas = areas;
         this.threshold = threshold;
-        this.sc = sc;
+        this.sc = sc; // this value is set to 30 due its reported good performance in the skater paper
         this.p = p;
 
         if(!skatercon)

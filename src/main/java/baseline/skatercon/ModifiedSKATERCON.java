@@ -30,10 +30,10 @@ public class ModifiedSKATERCON {
      */
     public ModifiedSKATERCON(ArrayList<Area> all_areas, int sc , int p , long threshold) throws InterruptedException, CloneNotSupportedException {
         long start_runtime = System.currentTimeMillis();
-        this.thread_num = 8; //the number of random spanning tree as input
+        this.thread_num = 8; //the number of random spanning generated, we parallelize this step by generating RSTs and run skater on them in different threads, we set this number of be the number of processors available
         this.all_areas = all_areas;
         this.skater_results = new Region[thread_num][];
-        this.coarsen_threshold = 100;
+        this.coarsen_threshold = 100; //this value is set to 100 according to Since the size of the coarser graph Gm is small (i.e., |Vm| < 100) in the METIS paper
         this.sc = sc;
         this.p = p;
         this.threshold = threshold;

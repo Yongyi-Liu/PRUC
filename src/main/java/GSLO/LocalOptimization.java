@@ -49,7 +49,7 @@ public class LocalOptimization {
     }
 
 
-    public void heuristic() throws InterruptedException, CloneNotSupportedException {
+    public void heuristic() throws CloneNotSupportedException {
         if(!sol.solved()) //If Global Search did not find a feasible partition, then Local Optimization would not be executed
         {
             this.total_time = 0;

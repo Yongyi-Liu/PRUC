@@ -30,7 +30,7 @@ public class Metis {
     public Region[] Metis_start()
     {
 
-        //if the threshold on the user-defined constraint is not 0, then the subgraph with the largest extensive attribute is given priority to be partitioned
+        //if the threshold on the user-defined constraint is not 0, then the subgraph with the largest extensive attribute is given priority to be partitioned to satisfy the user-defined constraint
         if(threshold > 0)
         {
             ArrayList<Graph> all_graphs = new ArrayList<>();
@@ -50,7 +50,7 @@ public class Metis {
             {
                 Graph graph_to_split = select_largest_graph(all_graphs);
                 all_graphs.remove(graph_to_split);
-                ArrayList<Graph> graphs = coarsen(graph_to_split , coarsen_threshold);
+                ArrayList<Graph> graphs = coarsen(graph_to_split , coarsen_threshold); //store all the graphs during the coarsening process, corresponds to Section 3 Coarsening phase
                 partition_min_graph(graphs.get(graphs.size() - 1));
                 int flag = uncoarsen(graphs);
                 if(flag == -1)
@@ -228,7 +228,12 @@ public class Metis {
 
     }
 
-
+    /**
+     * This method implements the Heavy edge matching(HEM) in the paper
+     * @param init_graph The graph to be coarsened
+     * @param coarsen_threshold indicate the coarsening stops when the size of the graph reduces to a threshold
+     * @return
+     */
     private ArrayList<Graph> coarsen(Graph init_graph , int coarsen_threshold)
     {
         ArrayList<Graph> graphs = new ArrayList<>();
@@ -239,9 +244,6 @@ public class Metis {
         {
             current_graph.getVertices().get(i).setIndex(i);
         }
-
-
-
 
         while(current_graph.get_size() > coarsen_threshold)
         {
@@ -429,10 +431,12 @@ public class Metis {
     }
 
 
-
+    /**
+     * This method partitions the minimum graph after the coarsening stage. We use Greedy Graph Growing Partitioning algorithm(GGGP) as mentioned in Section 4.4 in the paper
+     * @param graph the graph to be partitioned
+     */
     public void partition_min_graph(Graph graph)
     {
-
         ArrayList<Vertex> vertices = graph.getVertices();
 
 
@@ -442,7 +446,7 @@ public class Metis {
 
         int optimal_cross_weight = Integer.MAX_VALUE;
 
-        for(int iter = 0 ; iter < 4 ; iter++)
+        for(int iter = 0 ; iter < 4 ; iter++) //since GGGP is sensitive to the initial vertex, we run it 4 times and take the best results
         {
             Object[] partition_results = GGGP(vertices);
             int cross_edge_weight = (int)partition_results[0];
@@ -957,10 +961,11 @@ public class Metis {
     }
 
 
-
-
-
-
+    /**
+     * This method uncoarsen the graphs from the minimum partition, during each uncoarsen we use both Boundary KL(BKL) and BKL(1) refinement to further optimize the goal
+     * @param graphs the graphs to be incrementally uncoarsened
+     * @return the initial graph after all the uncoarsening
+     */
     private int uncoarsen(ArrayList<Graph> graphs)
     {
 
@@ -1112,6 +1117,8 @@ public class Metis {
             last_graph.set_degree_info(last_ID , last_ED);
             last_graph.setPartition_info(last_partition);
             int flag;
+            //according to the saying in the paper
+            //"if the number of vertices in the boundary of the coarse graph is less than 2% of the number of vertices in the original graph, refinement is performed using BKL; otherwise BKL(1) is used."
             if(last_graph.get_size() < (int)(0.02 * all_areas.size()))
             {
                 flag = BKL1(last_graph);
@@ -1226,7 +1233,7 @@ public class Metis {
         {
             return null;
         }
-        //System.out.println("the left is " + left_total_extensive + " the right is " + right_total_extensive + " the threshold is " + threshold);
+
 
         Graph split_left = new Graph(in_partition);
         Graph split_right = new Graph(out_partition);
